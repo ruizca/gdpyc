@@ -47,6 +47,9 @@ extensions = [
 napoleon_google_docstring = False
 napoleon_use_param = True
 napoleon_use_ivar = True
+napoleon_use_rtype = False
+
+add_module_names = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -83,12 +86,14 @@ pygments_style = 'sphinx'
 #
 #html_theme = 'alabaster'
 html_theme = 'bizstyle'
+#html_theme = 'nature'
+#html_theme = 'haiku'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+#html_theme_options = {'nosidebar': True}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
