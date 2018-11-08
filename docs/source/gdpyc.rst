@@ -20,10 +20,4 @@ gdpyc.data module
     :undoc-members:
     :show-inheritance:
 
-Module contents
----------------
 
-.. automodule:: gdpyc
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -3,12 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-gdpyc: Gas and Dust Python Calculator
-=====================================
+gdpyc — Gas and Dust Python Calculator
+======================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents: 
 
 .. include:: ../../README.rst
    :start-after: inclusion-marker-main-readme
@@ -16,5 +16,6 @@ gdpyc: Gas and Dust Python Calculator
 Indices and tables
 ==================
 
+* :mod:`gdpyc`
 * :ref:`genindex`
 * :ref:`modindex`

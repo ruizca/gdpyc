@@ -12,7 +12,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/x-rst',
     url='https://github.com/ruizca/gdpyc',
-    install_requires=['astropy', 'numpy', 'future'],
+    install_requires=['astropy', 'numpy', 'astropy-healpy'],
     packages=['gdpyc'],
     package_dir={'gdpyc': 'gdpyc'},
     package_data={'gdpyc': ['data/*_lowres.fits', 

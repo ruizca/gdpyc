@@ -15,12 +15,13 @@ for your research (see sections Surveys and References below).
 Dependencies
 ------------
 ``gdpyc`` depends on:
+
 * ``astropy``
 * ``astropy-healpix``
 * ``numpy`` 
-* ``future``
 
 Certain functionalities also requiere:
+
 * ``healpix``
 * ``matplotlib``
 
@@ -73,21 +74,22 @@ as needed and stored for future use.
 
 HI surveys
 ^^^^^^^^^^
-**`DL`_:** Composite all-sky map of neutral Hydrogen column density (NHI),
+
+`DL`_: Composite all-sky map of neutral Hydrogen column density (NHI),
 formed from the Leiden/Dwingeloo survey data [1]_ and the composite NHI
 map of [2]_. The two datasets are not matched in sensitivity or resolution;
 note that discontinuities exist in the constructed composite map. 
 
 `DL high resolution data`_ (oversampled), NSIDE=512 ~ 0.11 deg.
 
-**`LAB`_:** Observations of 21-cm emission from Galactic neutral Hydrogen
+`LAB`_: Observations of 21-cm emission from Galactic neutral Hydrogen
 over the entire sky, merging the Leiden/Dwingeloo Survey [1]_ of the sky
 north of -30° with the Instituto Argentino de Radioastronomia Survey
 [3]_, [4]_ of the sky south of -25°. [5]_
 
 `LAB high resolution data`_ (oversampled), NSIDE=512 ~ 0.11 deg. [6]_
 
-**`HI4PI`_:** The HI 4-PI Survey (HI4PI) is a 21-cm all-sky survey of
+`HI4PI`_: The HI 4-PI Survey (HI4PI) is a 21-cm all-sky survey of
 neutral atomic Hydrogen. It is constructed from the Effelsberg-Bonn HI
 Survey (EBHIS) and the Galactic All-Sky Survey (GASS). [7]_
 
@@ -95,13 +97,13 @@ Survey (EBHIS) and the Galactic All-Sky Survey (GASS). [7]_
 
 Dust surveys
 ^^^^^^^^^^^^
-**`SFD`_:** All-sky map of Galactic reddening, E(B - V), from a
+`SFD`_: All-sky map of Galactic reddening, E(B - V), from a
 composite 100 micron map formed from IRAS/ISSA maps calibrated
 using DIRBE observations. [8]_
 
 `SFD high resolution data`_ (undersampled), NSIDE=512 ~ 0.11 deg.
 
-**`Planck13`_:** All-sky map of Galactic reddening, E(B - V), using
+`Planck13`_: All-sky map of Galactic reddening, E(B - V), using
 Planck-HFI and IRAS data, for extra-galactic studies. [9]_
 
 `Planck13 high resolution data`_, NSIDE=2048 ~ 0.03 deg.
