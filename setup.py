@@ -5,13 +5,15 @@ with open("README.rst", "r") as fh:
 
 setup(
     name='gdpyc',
-    version='0.1',
+    version='1.0',
     author='Angel Ruiz',
     author_email='angel.ruizca@gmail.com',
     description='Gas and Dust Python Calculator',
     long_description=long_description,
     long_description_content_type='text/x-rst',
     url='https://github.com/ruizca/gdpyc',
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
     install_requires=['astropy', 'numpy', 'astropy-healpix', 'regions'],
     extras_require={
         'plot_map': ['matplotlib', 'healpy']
