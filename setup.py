@@ -12,7 +12,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/x-rst',
     url='https://github.com/ruizca/gdpyc',
-    install_requires=['astropy', 'numpy', 'astropy-healpix'],
+    install_requires=['astropy', 'numpy', 'astropy-healpix', 'regions'],
     extras_require={
         'plot_map': ['matplotlib', 'healpy']
     },

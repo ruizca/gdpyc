@@ -150,12 +150,12 @@ def get_lowres_maps(data_dir):
 
 
 def main():
-    #data_dir = pkg_resources.resource_filename('gdpyc', 'data')
-    data_dir = './data'
+    data_dir = pkg_resources.resource_filename('gdpyc', 'data')
 
     #get_map('HI4PI', data_dir)
     #get_map('DL', data_dir)
-    get_map('LAB', data_dir)
+    #get_map('LAB', data_dir)
+    #get_map('SFD', data_dir)
     #get_map('Planck13', data_dir)
     get_lowres_maps(data_dir)
 

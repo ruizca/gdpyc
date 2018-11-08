@@ -16,6 +16,5 @@ gdpyc — Gas and Dust Python Calculator
 Indices and tables
 ==================
 
-* :mod:`gdpyc`
 * :ref:`genindex`
 * :ref:`modindex`
