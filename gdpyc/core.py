@@ -45,20 +45,20 @@ class Map(object):
         """
         Full-sky plot (mollweide projection) of the map.
 
-        **Note:** this method needs `healpy` and `matplotlib`.
+        **Note:** this method needs ``healpy`` and ``matplotlib``.
 
         Parameters
         ----------
-        map_name : str
+        map_name : ``str``
             Name of the map to be plotted. Use ``show_maps`` method
             to see a list of all available maps.
-        plotname : str or `None`, optional
-            Name of the file where the plot will be saved. If `None`,
-            the plot is shown but not saved. Defaults to `None`.
+        plotname : ``str`` or ``None``, optional
+            Name of the file where the plot will be saved. If ``None``,
+            the plot is shown but not saved. Defaults to ``None``.
 
         Returns
         -------
-        plot : numpy.ndarray
+        plot : ``numpy.ndarray``
             2D numpy array with the plot.
         """
         import healpy as hp
@@ -155,14 +155,14 @@ class GasMap(Map):
 
         Parameters
         ----------
-        coords : `SkyCoord``
+        coords : ``SkyCoord``
             Astropy SkyCoord object with the line-of-sight coordinates.
-        nhmap : str, optional
+        nhmap : ``str``, optional
             Name of the HI survey. Use ``show_maps`` method
             to see a list of all available maps. Defaults to 'LAB'.
-        hires : boolean, optional
+        hires : ``boolean``, optional
             Use high resolution map. If the map is not available locally,
-            it is downloaded. Defaults to `False`.
+            it is downloaded. Defaults to ``False``.
 
         Returns
         -------
@@ -187,11 +187,11 @@ class GasMap(Map):
 
         Parameters
         ----------
-        coords : `SkyCoord``
+        coords : ``SkyCoord``
             Astropy SkyCoord object with the line-of-sight coordinates.
-        hires : boolean, optional
+        hires : ``boolean``, optional
             Use high resolution maps. If the map is not available locally,
-            it is downloaded. Defaults to `False`.
+            it is downloaded. Defaults to ``False``.
 
         Returns
         -------
@@ -217,13 +217,14 @@ class GasMap(Map):
     def nhf(cls, coords, nhmap='LAB', radius=1.0*u.deg):
         """
         Hydrogen column density in the line-of-sight of `coords`,
-        using HEASoft fits images [3]_ and method.
+        using HEASoft fits images (resolution of 0.675 x 0.675 deg) [3]_ 
+        and method.
 
         Parameters
         ----------
-        coords : `SkyCoord``
+        coords : ``SkyCoord``
             Astropy SkyCoord object with the line-of-sight coordinates.
-        nhmap : str, optional
+        nhmap : ``str``, optional
             Name of the HI survey. Use ``show_maps`` method
             to see a list of all available maps. Defaults to 'LAB'.
         radius : ``Quantity``, optional
@@ -237,8 +238,8 @@ class GasMap(Map):
 
         References
         ----------
-        .. [3] Original fits files created by K. Kuntz (LAB) and
-            Steve Snowden (DL), with resolution of 0.675 x 0.675 deg.
+        .. [3] Original fits files created by K. Kuntz (LAB) and 
+               Steve Snowden (DL).
         """
         if nhmap not in ['LAB', 'DL']:
             raise ValueError('Only LAB and DL maps are available')
@@ -344,18 +345,18 @@ class DustMap(Map):
 
         Parameters
         ----------
-        coords : `SkyCoord``
+        coords : ``SkyCoord``
             Astropy SkyCoord object with the line-of-sight coordinates.
-        nhmap : str, optional
+        nhmap : ``str``, optional
             Name of the dust survey. Use ``show_maps`` method
             to see a list of all available maps. Defaults to 'SFD'.
-        hires : boolean, optional
+        hires : ``boolean``, optional
             Use high resolution map. If the map is not available locally,
             it is downloaded. Defaults to `False`.
 
         Returns
         -------
-        ebv : float or numpy.ndarray
+        ebv : ``float`` or ``numpy.ndarray``
             Float, or numpy array with shape like `coords`.
         """
         ebv_hpmap, nside, order = cls._load_map(dustmap, hires=hires)
@@ -379,20 +380,20 @@ class DustMap(Map):
 
         Parameters
         ----------
-        coords : `SkyCoord``
+        coords : ``SkyCoord``
             Astropy SkyCoord object with the line-of-sight coordinates.
-        nhmap : str, optional
+        nhmap : ``str``, optional
             Name of the dust survey. Use ``show_maps`` method
             to see a list of all available maps. Defaults to 'SFD'.
-        filters : str or list, optional
+        filters : ``str`` or ``list``, optional
             List of the filters (or, equivalently, a single string with
             comma separated filters). Use ``show_filters`` method
             to see a list of all available maps. If filters is 'default',
             returns extinction for the five SDSS bands (u, g, r, i, z).
             Defaults to 'default'.
-        hires : boolean, optional
+        hires : ``boolean``, optional
             Use high resolution map. If the map is not available locally,
-            it is downloaded. Defaults to `False`.
+            it is downloaded. Defaults to ``False``.
 
         Returns
         -------
@@ -428,13 +429,10 @@ class DustMap(Map):
 
         Parameters
         ----------
-        lambda_eff : boolean, optional
-            If `True`, also returns the effective wavelength of each filter.
-            Deafults to `False`.
+        lambda_eff : ``boolean``, optional
+            If ``True``, also returns the effective wavelength of each filter.
+            Deafults to ``False``.
         """
-#        References
-#        ----------
-#        .. [4] Schlafly & Finkbeiner 2011, ApJ, 737, 2, 103.        
         aebv = cls._load_sfcoeff()
 
         if lambda_eff:
