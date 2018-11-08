@@ -60,7 +60,7 @@ A simple example of using ``gdpyc``::
     --------------------
     0.049108389441137615
 
-    >>> GasMap.plot_map(coords, nhmap='HI4PI')
+    >>> GasMap.plot_map('HI4PI')
 
 Surveys
 -------
