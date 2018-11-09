@@ -253,7 +253,6 @@ class GasMap(Map):
         hmapimage = fits.getdata(hmapfile)
         wcs = WCS(hmapfile)
 
-        print(wcs.wcs)
 
         # If coords is not an array of coordinates, change to a list
         try:
