@@ -296,11 +296,18 @@ class GasMap(Map):
 
         # Estimate weights
         weights = (radius - distance[good_mask])/radius
-        if weights.sum() == 0:
-            print('weights sum is zero!!')
-            print(center_sky)
 
-        return np.sum(good_nh * weights)/weights.sum()
+        if weights:
+            nh = np.sum(good_nh * weights)/weights.sum()
+        else:
+            message = ('No points are within {} deg from input position. '
+                       'First good point is at distance {} deg')
+            message = message.format(radius, distance[out_mask].min())
+            warnings.warn(RuntimeWarning(message))
+
+            nh = np.nan
+
+        return nh
 
 
     @staticmethod
