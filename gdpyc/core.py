@@ -16,10 +16,8 @@ from astropy.io import fits
 from astropy.coordinates import Galactic
 from astropy.table import Table, join
 from astropy.wcs import WCS
-from astropy.wcs.utils import pixel_to_skycoord
 from astropy_healpix import HEALPix
-from regions import PixCoord, RectanglePixelRegion
-from photutils import RectangularAperture
+from regions import PixCoord
 import numpy as np
 
 
