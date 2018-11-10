@@ -13,6 +13,8 @@ gdpyc — Gas and Dust Python Calculator
 .. include:: ../../README.rst
    :start-after: inclusion-marker-main-readme
 
+.. include:: ../nh_comparison.rst
+
 API Documentation
 =================
 

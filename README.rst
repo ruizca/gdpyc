@@ -1,6 +1,5 @@
-gdpyc
-=====
-Gas and Dust Python Calculator
+gdpyc ─ Gas and Dust Python Calculator
+======================================
 .. inclusion-marker-main-readme
 
 ``gdpyc`` is a Python 2/3 package for calculating Hydrogen column density
@@ -11,6 +10,8 @@ HEASARC's `nH`_ or IRSA's `Galactic Dust Reddening and Extinction`_.
 This package uses HEALpix maps provided by NASA's LAMBDA service. Please
 cite the original papers and authors of the surveys if you use this tool
 for your research (see sections Surveys and References below).
+
+|astropy|
 
 Dependencies
 ------------
@@ -114,11 +115,6 @@ reddening ratio R=3.1 Additional factors for 2MASS, `Spitzer`-IRAC
 and WISE filters are from IRSA's `Galactic Dust Reddening and Extinction`_ 
 service.
 
-Comparison between gdpyc and ftool's nh
----------------------------------------
-|DLmap|
-
-
 References
 ----------
 .. [1] Hartmann & Burton 1997, Cambridge University Press.
@@ -132,7 +128,6 @@ References
 .. [9] Planck Collaboration et al. 2013, A&A, 571, A11.
 .. [10] Schlafly & Finkbeiner 2011, ApJ, 737, 2, 103.
 
-|astropy|
 
 .. _nh tool: https://heasarc.gsfc.nasa.gov/lheasoft/ftools/heasarc.html
 .. _nH: https://heasarc.gsfc.nasa.gov/cgi-bin/Tools/w3nh/w3nh.pl
@@ -148,6 +143,5 @@ References
 .. _Planck13: https://wiki.cosmos.esa.int/planckpla/index.php/CMB_and_astrophysical_component_maps#Thermal_dust_emission
 .. _Planck13 high resolution data: http://pla.esac.esa.int/pla/aio/product-action?MAP.MAP_ID=HFI_CompMap_ThermalDustModel_2048_R1.20.fits
 
-.. |DLmap| image:: ../images/ratio_nhf_LAB_lowres.png
 .. |astropy| image:: http://img.shields.io/badge/powered%20by-AstroPy-orange.svg?style=flat
    :target: http://www.astropy.org/
