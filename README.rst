@@ -11,7 +11,7 @@ This package uses HEALpix maps provided by NASA's LAMBDA service. Please
 cite the original papers and authors of the surveys if you use this tool
 for your research (see sections Surveys and References below).
 
-|astropy|
+|astropy| |DOI|
 
 Dependencies
 ------------
@@ -145,3 +145,6 @@ References
 
 .. |astropy| image:: http://img.shields.io/badge/powered%20by-AstroPy-orange.svg?style=flat
    :target: http://www.astropy.org/
+
+.. |DOI| image:: https://zenodo.org/badge/156710074.svg
+   :target: https://zenodo.org/badge/latestdoi/156710074
