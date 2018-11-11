@@ -217,7 +217,7 @@ class GasMap(Map):
     def nhf(cls, coords, nhmap='LAB', radius=1.0*u.deg):
         """
         Hydrogen column density in the line-of-sight of `coords`,
-        using HEASoft fits images (resolution of 0.675 x 0.675 deg) [3]_ 
+        using HEASoft fits images (resolution of 0.675 x 0.675 deg) [3]_
         and method.
 
         Parameters
@@ -238,7 +238,7 @@ class GasMap(Map):
 
         References
         ----------
-        .. [3] Original fits files created by K. Kuntz (LAB) and 
+        .. [3] Original fits files created by K. Kuntz (LAB) and
                Steve Snowden (DL).
         """
         if nhmap not in ['LAB', 'DL']:
