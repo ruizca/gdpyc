@@ -17,9 +17,10 @@ Dependencies
 ------------
 ``gdpyc`` depends on:
 
+* ``numpy`` 
 * ``astropy``
 * ``astropy-healpix``
-* ``numpy`` 
+* ``regions``
 
 Certain functionalities also requiere:
 
