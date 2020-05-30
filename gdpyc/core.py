@@ -16,7 +16,7 @@ from astropy.io import fits
 from astropy.coordinates import Galactic
 from astropy.table import Table, join
 from astropy.wcs import WCS
-from astropy_healpix import HEALPix
+from astropy_healpix import HEALPix, nside_to_pixel_area
 from regions import PixCoord
 import numpy as np
 
@@ -95,6 +95,32 @@ class Map(object):
         return plot
 
     @classmethod
+    def unseen_pixels(cls, map_name, hires=False):
+        """
+        Returns a list of UNSEEN healpix pixels contained in `map_name`.
+
+        Parameters
+        ----------
+        map_name : ``str``
+            Name of the map to be plotted. Use ``show_maps`` method
+            to see a list of all available maps.
+        hires : ``boolean``, optional
+            Use high resolution map. If the map is not available locally,
+            it is downloaded. Defaults to ``False``.
+        """
+        hpmap, nside, _ = cls._load_map(map_name, hires)
+        unseen_pixels = np.where(np.isnan(hpmap))[0]
+        npixels = len(unseen_pixels)
+
+        if npixels:
+            bad_area = npixels * nside_to_pixel_area(nside).to(u.deg ** 2)
+            print(
+                "{} contains {} UNSEEN pixels ({})".format(map_name, npixels, bad_area)
+            )
+
+        return unseen_pixels
+
+    @classmethod
     def _load_map(cls, map_name, hires=False):
         # Load healpix map for map_name.
         # If hires is True and the map is not locally available,
@@ -118,6 +144,8 @@ class Map(object):
             nside = hdu[1].header["NSIDE"]
             order = hdu[1].header["ORDERING"]
             hpmap = hdu[1].data.field(0)
+
+        hpmap[hpmap == -1.6375e30] = np.nan  # Mask UNSEEN pixels as nan
 
         return hpmap, nside, order
 
@@ -181,7 +209,7 @@ class GasMap(Map):
         nh_hpmap, nside, order = cls._load_map(nhmap, hires=hires)
         nh = cls._interpolate(coords, nh_hpmap, nside, order)
 
-        return nh * u.cm ** -2
+        return nh << u.cm ** -2
 
     @classmethod
     def nhtotal(cls, coords, hires=False):
