@@ -69,6 +69,9 @@ def parse_HI4PI(mapfile, outfile):
         header = hdu[1].header
         nhmap = hdu[1].data.field(5)
 
+    # Flag negative values as UNSEEN in healpix convention
+    nhmap[nhmap < 0] = -1.6375e30
+
     header["INDXSCHM"] = "IMPLICIT"
     col1 = fits.Column(name="TEMPERATURE", format="D", array=nhmap)
     chdu = fits.BinTableHDU.from_columns(
