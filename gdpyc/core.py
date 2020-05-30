@@ -26,7 +26,7 @@ class Map(object):
     A class with common methods for HEALpix maps.
     """
 
-    _data_path = pkg_resources.resource_filename('gdpyc', 'data')
+    _data_path = pkg_resources.resource_filename("gdpyc", "data")
     _map_type = None
     _maps = None
 
@@ -35,10 +35,9 @@ class Map(object):
         """
         Show available maps.
         """
-        print('Available maps:')
-        for key in cls._maps.keys():
-            print('- {} ({})'.format(key, cls._maps[key]))
-
+        print("Available maps:")
+        for key, value in cls._maps.items():
+            print("- {} ({})".format(key, value))
 
     @classmethod
     def plot_map(cls, map_name, plotname=None):
@@ -66,21 +65,27 @@ class Map(object):
 
         cls._check_map(map_name)
 
-        hpmapfile = '{}_{}_healpix_lowres.fits'.format(cls._map_type, map_name)
+        hpmapfile = "{}_{}_healpix_lowres.fits".format(cls._map_type, map_name)
         hpmapfile = os.path.join(cls._data_path, hpmapfile)
         hpmap = hp.read_map(hpmapfile)
 
-        title = '{} ({})'.format(map_name, cls._maps[map_name])
-        if cls. _map_type == 'h1_nh':
-            unit_label = 'cm-2'
+        title = "{} ({})".format(map_name, cls._maps[map_name])
+        if cls._map_type == "h1_nh":
+            unit_label = "cm-2"
             minval, maxval = 1e19, 3e22
         else:
-            unit_label = 'mag'
+            unit_label = "mag"
             minval, maxval = 0, hpmap.max()
 
-        plot = hp.mollview(hpmap, title=title, norm='hist',
-                           min=minval, max=maxval, unit=unit_label,
-                           return_projected_map=True)
+        plot = hp.mollview(
+            hpmap,
+            title=title,
+            norm="hist",
+            min=minval,
+            max=maxval,
+            unit=unit_label,
+            return_projected_map=True,
+        )
 
         if plotname is None:
             plt.show()
@@ -88,7 +93,6 @@ class Map(object):
             plt.savefig(plotname)
 
         return plot
-
 
     @classmethod
     def _load_map(cls, map_name, hires=False):
@@ -98,31 +102,30 @@ class Map(object):
         cls._check_map(map_name)
 
         if hires:
-            resolution = 'hires'
+            resolution = "hires"
         else:
-            resolution = 'lowres'
+            resolution = "lowres"
 
-        hmapfile = '{}_{}_healpix_{}.fits'.format(cls._map_type, map_name, resolution)
+        hmapfile = "{}_{}_healpix_{}.fits".format(cls._map_type, map_name, resolution)
         hmapfile = os.path.join(cls._data_path, hmapfile)
 
         if hires and not os.path.isfile(hmapfile):
-            print('High resolution map is not locally available.')
-            print('Downloading {} map...'.format(map_name))
+            print("High resolution map is not locally available.")
+            print("Downloading {} map...".format(map_name))
             cls._download_map(map_name)
 
         with fits.open(hmapfile) as hdu:
-            nside = hdu[1].header['NSIDE']
-            order = hdu[1].header['ORDERING']
+            nside = hdu[1].header["NSIDE"]
+            order = hdu[1].header["ORDERING"]
             hpmap = hdu[1].data.field(0)
 
         return hpmap, nside, order
 
-
     @classmethod
     def _download_map(cls, map_name):
         from .data import get_map
-        get_map(map_name, cls._data_path)
 
+        get_map(map_name, cls._data_path)
 
     @classmethod
     def _interpolate(cls, coords, hpmap, nside, order):
@@ -133,7 +136,7 @@ class Map(object):
     @classmethod
     def _check_map(cls, map_name):
         if map_name not in cls._maps.keys():
-            message = 'Map {} unknown!\nAvailable maps: {}'
+            message = "Map {} unknown!\nAvailable maps: {}"
             raise ValueError(message.format(map_name, cls._maps.keys()))
 
 
@@ -142,13 +145,15 @@ class GasMap(Map):
     Class for HI maps.
     """
 
-    _map_type = 'h1_nh'
-    _maps = {'DL':  'Dickey & Lockman 1990, Ann. Rev. A&A, 28, 215',
-             'LAB': 'Kalberla et al. 2005, A&A, 440, 775',
-             'HI4PI': 'HI4PI Collaboration et al. 2016, A&A, 594, A116'}
+    _map_type = "h1_nh"
+    _maps = {
+        "DL": "Dickey & Lockman 1990, Ann. Rev. A&A, 28, 215",
+        "LAB": "Kalberla et al. 2005, A&A, 440, 775",
+        "HI4PI": "HI4PI Collaboration et al. 2016, A&A, 594, A116",
+    }
 
     @classmethod
-    def nh(cls, coords, nhmap='LAB', hires=False):
+    def nh(cls, coords, nhmap="LAB", hires=False):
         """
         Hydrogen column density in the line-of-sight of `coords`,
         using LAMBDA healpix maps [1]_.
@@ -176,8 +181,7 @@ class GasMap(Map):
         nh_hpmap, nside, order = cls._load_map(nhmap, hires=hires)
         nh = cls._interpolate(coords, nh_hpmap, nside, order)
 
-        return nh * u.cm**-2
-
+        return nh * u.cm ** -2
 
     @classmethod
     def nhtotal(cls, coords, hires=False):
@@ -202,19 +206,18 @@ class GasMap(Map):
         ----------
         .. [2] Willingale et al. 2013, MNRAS, 431, 1.
         """
-        nHI = cls.nh(coords, nhmap='LAB', hires=hires)
-        ebv = DustMap.ebv(coords, dustmap='SFD', hires=hires)
+        nHI = cls.nh(coords, nhmap="LAB", hires=hires)
+        ebv = DustMap.ebv(coords, dustmap="SFD", hires=hires)
 
-        nH2max = 7.3e20 * u.cm**-2
-        Nc = 3.0e20 * u.cm**-2
+        nH2max = 7.3e20 * u.cm ** -2
+        Nc = 3.0e20 * u.cm ** -2
         alpha = 1.1
-        nH2 = nH2max*(1 - np.exp(-nHI*ebv/Nc))**alpha
+        nH2 = nH2max * (1 - np.exp(-nHI * ebv / Nc)) ** alpha
 
-        return nHI + 2*nH2
-
+        return nHI + 2 * nH2
 
     @classmethod
-    def nhf(cls, coords, nhmap='LAB', radius=1.0*u.deg):
+    def nhf(cls, coords, nhmap="LAB", radius=1.0 * u.deg):
         """
         Hydrogen column density in the line-of-sight of `coords`,
         using HEASoft fits images (resolution of 0.675 x 0.675 deg) [3]_
@@ -241,14 +244,14 @@ class GasMap(Map):
         .. [3] Original fits files created by K. Kuntz (LAB) and
                Steve Snowden (DL).
         """
-        if nhmap not in ['LAB', 'DL']:
-            raise ValueError('Only LAB and DL maps are available')
+        if nhmap not in ["LAB", "DL"]:
+            raise ValueError("Only LAB and DL maps are available")
 
         radius = radius.to(u.deg).value
         if radius > 3:
-            raise ValueError('radius must be <= 3 deg!!!')
+            raise ValueError("radius must be <= 3 deg!!!")
 
-        hmapfile = '{}_{}_heasoft.fits'.format(cls._map_type, nhmap)
+        hmapfile = "{}_{}_heasoft.fits".format(cls._map_type, nhmap)
         hmapfile = os.path.join(cls._data_path, hmapfile)
         hmapimage = fits.getdata(hmapfile)
         wcs = WCS(hmapfile)
@@ -262,22 +265,23 @@ class GasMap(Map):
         # TODO: vectorize this loop
         # numpy iterator for preserving the shape of coords in nh
         nh = np.empty_like(coords)
-        it = np.nditer(coords, flags=['multi_index', 'refs_ok'])
+        it = np.nditer(coords, flags=["multi_index", "refs_ok"])
         while not it.finished:
-            nh[it.multi_index] = cls._nhftools(coords[it.multi_index],
-                                               hmapimage, wcs, radius)
+            nh[it.multi_index] = cls._nhftools(
+                coords[it.multi_index], hmapimage, wcs, radius
+            )
             it.iternext()
 
         if len(nh) == 1:
             nh = float(nh)
 
-        return nh * u.cm**-2
-
+        return nh * u.cm ** -2
 
     @classmethod
     def _nhftools(cls, center_sky, image, wcs, radius=1.0):
-        ### Quick and dirty python
-        ### implementation of ftool's nh
+        """
+        Quick and dirty python implementation of ftool's nh
+        """
         # Select a 3 x 3 deg subimage (default in ftool's nh)
         box_pixcoord = cls._subimage(center_sky, wcs, size=3.0)
 
@@ -295,13 +299,15 @@ class GasMap(Map):
         good_nh = image[box_pixcoord[good_mask].y, box_pixcoord[good_mask].x]
 
         # Estimate weights
-        weights = (radius - distance[good_mask])/radius
+        weights = (radius - distance[good_mask]) / radius
 
         if weights:
-            nh = np.sum(good_nh * weights)/weights.sum()
+            nh = np.sum(good_nh * weights) / weights.sum()
         else:
-            message = ('No points are within {} deg from input position. '
-                       'First good point is at distance {} deg')
+            message = (
+                "No points are within {} deg from input position. "
+                "First good point is at distance {} deg"
+            )
             message = message.format(radius, distance[out_mask].min())
             warnings.warn(RuntimeWarning(message))
 
@@ -309,17 +315,16 @@ class GasMap(Map):
 
         return nh
 
-
     @staticmethod
     def _subimage(center_sky, wcs, size=3.0):
         center_x, center_y = center_sky.to_pixel(wcs)
-        npixtot = size/wcs.wcs.cdelt[1]
+        npixtot = size / wcs.wcs.cdelt[1]
 
         # Box limits
-        fpix_x = int(np.round(center_x - (npixtot - 1)/2.0))
-        fpix_y = int(np.round(center_y - (npixtot - 1)/2.0))
-        lpix_x = int(np.round(center_x + (npixtot - 1)/2.0))
-        lpix_y = int(np.round(center_y + (npixtot - 1)/2.0))
+        fpix_x = int(np.round(center_x - (npixtot - 1) / 2.0))
+        fpix_y = int(np.round(center_y - (npixtot - 1) / 2.0))
+        lpix_x = int(np.round(center_x + (npixtot - 1) / 2.0))
+        lpix_y = int(np.round(center_y + (npixtot - 1) / 2.0))
 
         xbox = np.arange(fpix_x, lpix_x + 1)
         ybox = np.arange(fpix_y, lpix_y + 1)
@@ -339,12 +344,14 @@ class DustMap(Map):
     Class for dust maps.
     """
 
-    _map_type = 'dust_ebv'
-    _maps = {'SFD':  'Schlegel, Finkbeiner & Davis 1998, ApJ, 500, 2',
-             'Planck13': 'Planck Collaboration et al. 2013, A&A, 571, A11'}
+    _map_type = "dust_ebv"
+    _maps = {
+        "SFD": "Schlegel, Finkbeiner & Davis 1998, ApJ, 500, 2",
+        "Planck13": "Planck Collaboration et al. 2013, A&A, 571, A11",
+    }
 
     @classmethod
-    def ebv(cls, coords, dustmap='SFD', hires=False):
+    def ebv(cls, coords, dustmap="SFD", hires=False):
         """
         E(B - V) in the line-of-sight of `coords`.
 
@@ -352,7 +359,7 @@ class DustMap(Map):
         ----------
         coords : ``SkyCoord``
             Astropy SkyCoord object with the line-of-sight coordinates.
-        nhmap : ``str``, optional
+        dustmap : ``str``, optional
             Name of the dust survey. Use ``show_maps`` method
             to see a list of all available maps. Defaults to 'SFD'.
         hires : ``boolean``, optional
@@ -369,10 +376,8 @@ class DustMap(Map):
 
         return ebv
 
-
     @classmethod
-    def extinction(cls, coords, dustmap='SFD',
-                   filters='default', hires=False):
+    def extinction(cls, coords, dustmap="SFD", filters="default", hires=False):
         """
         Galactic extinction in the line-of-sight of `coords` for the
         bandpasses defined in `filters`. If there are N coords and
@@ -387,7 +392,7 @@ class DustMap(Map):
         ----------
         coords : ``SkyCoord``
             Astropy SkyCoord object with the line-of-sight coordinates.
-        nhmap : ``str``, optional
+        dustmap : ``str``, optional
             Name of the dust survey. Use ``show_maps`` method
             to see a list of all available maps. Defaults to 'SFD'.
         filters : ``str`` or ``list``, optional
@@ -415,9 +420,11 @@ class DustMap(Map):
         ebv = cls.ebv(coords, dustmap=dustmap, hires=hires)
         aebv = cls._ebv_to_ext(list_filters)
 
-        if dustmap != 'SFD':
-            warnings.warn('Extinction for a dust map other than SFD.\n'
-                          'Results are not reliable!!!')
+        if dustmap != "SFD":
+            warnings.warn(
+                "Extinction for a dust map other than SFD.\n"
+                "Results are not reliable!!!"
+            )
 
         if isinstance(ebv, np.ndarray):
             ext = np.matmul(ebv[:, np.newaxis], aebv[np.newaxis, :])
@@ -425,7 +432,6 @@ class DustMap(Map):
             ext = ebv * aebv
 
         return Table(ext, names=list_filters)
-
 
     @classmethod
     def show_filters(cls, lambda_eff=False):
@@ -441,10 +447,9 @@ class DustMap(Map):
         aebv = cls._load_sfcoeff()
 
         if lambda_eff:
-            return aebv['filter'], aebv['lambda_eff']
+            return aebv["filter"], aebv["lambda_eff"]
         else:
-            return aebv['filter']
-
+            return aebv["filter"]
 
     @classmethod
     def _ebv_to_ext(cls, filters):
@@ -452,33 +457,31 @@ class DustMap(Map):
         good_filters = cls.show_filters()
         for f in filters:
             if f not in good_filters:
-                raise ValueError('Unknown filter: {}'.format(f))
+                raise ValueError("Unknown filter: {}".format(f))
 
         aebv = cls._load_sfcoeff()
 
         sortidx = list(range(len(filters)))
-        filters = Table([filters, sortidx], names=['filter', 'sortidx'])
+        filters = Table([filters, sortidx], names=["filter", "sortidx"])
 
-        sfcoeff_filters = join(filters, aebv, keys=['filter'], join_type='left')
-        sfcoeff_filters.sort('sortidx')
+        sfcoeff_filters = join(filters, aebv, keys=["filter"], join_type="left")
+        sfcoeff_filters.sort("sortidx")
 
-        return np.array(sfcoeff_filters['AEBV2']) # AEBV2 assumes RV = 3.1
-
+        return np.array(sfcoeff_filters["AEBV2"])  # AEBV2 assumes RV = 3.1
 
     @classmethod
     def _load_sfcoeff(cls):
         # Load conversion coefficients from the SFD maps of E(B - V) to
         # extinction in several bandpasses, by Schlafly and Finkbeiner (2011).
-        sfcoeff = os.path.join(cls._data_path, 'sfcoeff.fits')
-        return Table.read(sfcoeff, format='fits')
-
+        sfcoeff = os.path.join(cls._data_path, "sfcoeff.fits")
+        return Table.read(sfcoeff, format="fits")
 
     @classmethod
     def _parse_filters(cls, filters):
         if isinstance(filters, str):
-            if filters == 'default':
-                filters = 'SDSS_u, SDSS_g, SDSS_r, SDSS_i, SDSS_z'
-            list_filters = filters.replace(' ', '').split(',')
+            if filters == "default":
+                filters = "SDSS_u, SDSS_g, SDSS_r, SDSS_i, SDSS_z"
+            list_filters = filters.replace(" ", "").split(",")
         else:
             list_filters = filters
 
