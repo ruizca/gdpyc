@@ -5,8 +5,8 @@ Module for downloading and processing
 the HEALpix maps used in gdpyc.
 """
 import os
-import pkg_resources
 
+import pkg_resources
 from astropy.io import fits
 from astropy.utils.data import get_readable_fileobj
 

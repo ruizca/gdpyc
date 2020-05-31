@@ -4,14 +4,15 @@ Gas and Dust Python Calculator.
 
 Unit tests for gdpyc
 """
-import pytest
-
-from astropy.table import Table
-from astropy.coordinates import SkyCoord
-from astropy.units.quantity import Quantity
 import numpy as np
+import pytest
+from astropy.coordinates import SkyCoord
+from astropy.table import Table
+from astropy.units.quantity import Quantity
+from astropy.utils.exceptions import AstropyWarning
 
-from ..core import GasMap, DustMap
+
+from ..core import DustMap, GasMap
 
 
 def test_nh_badmap():
@@ -176,7 +177,7 @@ def test_extinction_SFD():
 
 def test_extinction_Planck13():
     coords = SkyCoord(ra=136.0, dec=44.0, unit="deg")
-    with pytest.warns(UserWarning):
+    with pytest.warns(AstropyWarning):
         ext = DustMap.extinction(coords, dustmap="Planck13", filters="SDSS_r")
 
     assert isinstance(ext, Table)

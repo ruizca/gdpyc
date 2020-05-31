@@ -9,16 +9,17 @@ from __future__ import print_function
 
 import os
 import warnings
-import pkg_resources
 
+import numpy as np
+import pkg_resources
 from astropy import units as u
-from astropy.io import fits
 from astropy.coordinates import Galactic
+from astropy.io import fits
 from astropy.table import Table, join
+from astropy.utils.exceptions import AstropyWarning
 from astropy.wcs import WCS
 from astropy_healpix import HEALPix, nside_to_pixel_area
 from regions import PixCoord
-import numpy as np
 
 
 class Map(object):
@@ -28,7 +29,7 @@ class Map(object):
 
     _data_path = pkg_resources.resource_filename("gdpyc", "data")
     _map_type = None
-    _maps = None
+    _maps = []
 
     @classmethod
     def show_maps(cls):
@@ -159,7 +160,15 @@ class Map(object):
     def _interpolate(cls, coords, hpmap, nside, order):
         hp = HEALPix(nside=nside, order=order, frame=Galactic())
 
-        return hp.interpolate_bilinear_skycoord(coords, hpmap)
+        i = hp.interpolate_bilinear_skycoord(coords, hpmap)
+
+        if np.any(np.isnan(i)):
+            warnings.warn(
+                "Result contains NaN values corresponding to UNSEEN coordinates.",
+                AstropyWarning,
+            )
+
+        return i
 
     @classmethod
     def _check_map(cls, map_name):
@@ -337,7 +346,7 @@ class GasMap(Map):
                 "First good point is at distance {} deg"
             )
             message = message.format(radius, distance[out_mask].min())
-            warnings.warn(RuntimeWarning(message))
+            warnings.warn(message, AstropyWarning)
 
             nh = np.nan
 
@@ -452,7 +461,8 @@ class DustMap(Map):
         if dustmap != "SFD":
             warnings.warn(
                 "Extinction for a dust map other than SFD.\n"
-                "Results are not reliable!!!"
+                "Results are not reliable!!!",
+                AstropyWarning,
             )
 
         if isinstance(ebv, np.ndarray):
