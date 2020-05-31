@@ -329,7 +329,7 @@ class GasMap(Map):
         # Estimate weights
         weights = (radius - distance[good_mask]) / radius
 
-        if weights:
+        if len(weights):
             nh = np.sum(good_nh * weights) / weights.sum()
         else:
             message = (
@@ -358,8 +358,9 @@ class GasMap(Map):
         ybox = np.arange(fpix_y, lpix_y + 1)
 
         # Define box within the pixel limits of the fits image
-        mask_x = np.logical_and(xbox >= 0, xbox < wcs._naxis1)
-        mask_y = np.logical_and(ybox >= 0, ybox < wcs._naxis2)
+        naxis2, naxis1 = wcs.array_shape
+        mask_x = np.logical_and(xbox >= 0, xbox < naxis1)
+        mask_y = np.logical_and(ybox >= 0, ybox < naxis2)
 
         # Grid of pixel coordinates for the subimage
         grid_x, grid_y = np.meshgrid(xbox[mask_x], ybox[mask_y])
