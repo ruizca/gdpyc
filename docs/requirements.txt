@@ -1,0 +1,6 @@
+astropy
+numpy 
+astropy-healpix
+regions
+matplotlib
+healpy
