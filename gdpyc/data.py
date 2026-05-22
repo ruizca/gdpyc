@@ -6,7 +6,6 @@ the HEALpix maps used in gdpyc.
 """
 import os
 
-import pkg_resources
 from astropy.io import fits
 from astropy.utils.data import get_readable_fileobj
 
@@ -159,7 +158,7 @@ def get_lowres_maps(data_dir):
 
 
 def main():
-    data_dir = pkg_resources.resource_filename("gdpyc", "data")
+    data_dir = os.path.join(os.path.dirname(__file__), "data")
 
     # get_map('HI4PI', data_dir)
     # get_map('DL', data_dir)
