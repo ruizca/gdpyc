@@ -5,7 +5,7 @@ with open("README.rst", "r") as fh:
 
 setup(
     name="gdpyc",
-    version="1.1",
+    version="1.2",
     author="Angel Ruiz",
     author_email="angel.ruizca@gmail.com",
     description="Gas and Dust Python Calculator",
