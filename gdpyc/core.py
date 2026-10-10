@@ -297,24 +297,19 @@ class GasMap(Map):
         hmapimage = fits.getdata(hmapfile)
         wcs = WCS(hmapfile)
 
-        # If coords is not an array of coordinates, change to a list
-        try:
-            len(coords)
-        except TypeError:
-            coords = np.array([coords])
+        # Preserve scalar versus array coordinates, even for length-one arrays.
+        scalar = coords.isscalar
+        if scalar:
+            coords = coords.reshape((1,))
 
         # TODO: vectorize this loop
         # numpy iterator for preserving the shape of coords in nh
-        nh = np.empty_like(coords)
-        it = np.nditer(coords, flags=["multi_index", "refs_ok"])
-        while not it.finished:
-            nh[it.multi_index] = cls._nhftools(
-                coords[it.multi_index], hmapimage, wcs, radius
-            )
-            it.iternext()
+        nh = np.empty(coords.shape, dtype=float)
+        for index in np.ndindex(coords.shape):
+            nh[index] = cls._nhftools(coords[index], hmapimage, wcs, radius)
 
-        if len(nh) == 1:
-            nh = float(nh)
+        if scalar:
+            nh = nh.item()
 
         return nh * u.cm ** -2
 

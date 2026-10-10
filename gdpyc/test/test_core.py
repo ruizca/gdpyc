@@ -7,6 +7,7 @@ Unit tests for gdpyc
 import numpy as np
 import pytest
 from astropy.coordinates import SkyCoord
+from astropy import units as u
 from astropy.table import Table
 from astropy.units.quantity import Quantity
 from astropy.utils.exceptions import AstropyWarning
@@ -134,6 +135,20 @@ def test_nhf_array():
     nh = GasMap.nhf(coords)
 
     assert len(nh) == len(coords)
+
+
+@pytest.mark.parametrize("nhmap", ["LAB", "DL"])
+@pytest.mark.parametrize("shape", [(), (1,), (1, 2), (2, 1)])
+def test_nhf_preserves_coordinate_shape(nhmap, shape):
+    coords = SkyCoord(ra=np.full(shape, 136.0), dec=np.full(shape, 44.0), unit="deg")
+    nh = GasMap.nhf(coords, nhmap=nhmap)
+
+    assert isinstance(nh, Quantity)
+    assert nh.shape == shape
+    assert nh.unit == u.cm ** -2
+    assert np.issubdtype(nh.value.dtype, np.floating)
+    assert np.all(nh.value > 1e19)
+    assert np.all(nh.value < 3e22)
 
 
 def test_ebv_badmap():
